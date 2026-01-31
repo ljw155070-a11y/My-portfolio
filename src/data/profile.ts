@@ -314,6 +314,76 @@ export const profileData = {
       contribution: '30%',
       github: 'https://github.com/ljw155070-a11y/teamproject',
       learned: 'SSR에서 사용자 경험을 유지하려면 URL 설계와 렌더링 단위를 신중히 나눠야 함',
+      codeExamples: [
+        {
+          title: '레시피 등록 - 트랜잭션 처리',
+          description: '레시피 + 재료 + 조리순서를 하나의 트랜잭션으로 처리. 시퀀스로 번호 선발급 후 연관 테이블에 일괄 삽입.',
+          flow: ['1. 레시피 번호 선발급 (시퀀스)', '2. 레시피 기본정보 INSERT', '3. 재료 리스트 반복 INSERT', '4. 조리순서 리스트 반복 INSERT'],
+          code: `@Transactional
+public int insertRecipe(Recipe r, 
+    ArrayList<RecipeIngredient> ingredientList,
+    ArrayList<RecipeCookingOrder> cookingOrderList) {
+  int result = -1;
+  // 1. 게시물 번호 선발급
+  int recipeNo = recipeDao.recipeNoCreate();
+  r.setRecipeNo(recipeNo);
+  
+  // 2. 레시피 기본정보 INSERT
+  result += recipeDao.recipeRInsert(r);
+  
+  // 3. 재료 반복 INSERT
+  for(RecipeIngredient ri : ingredientList) {
+    ri.setRecipeNo(recipeNo);
+    result += recipeDao.recipeRIInsert(ri);
+  }
+  
+  // 4. 조리순서 반복 INSERT
+  for(RecipeCookingOrder rco : cookingOrderList) {
+    rco.setRecipeNo(recipeNo);
+    result += recipeDao.recipeRCOLInsert(rco);
+  }
+  return result;
+}`,
+          language: 'java',
+        },
+        {
+          title: '평점 등록 - 중복 체크 후 INSERT/UPDATE 분기',
+          description: '이미 평점을 남긴 사용자는 UPDATE, 처음이면 INSERT 처리.',
+          flow: ['1. 기존 평점 존재 여부 확인', '2. 없으면 INSERT / 있으면 UPDATE', '3. 결과 반환'],
+          code: `public int recipeGrade(int recipeNo, int memberNo, int recipeRate) {
+  HashMap<String, Object> params = new HashMap<>();
+  params.put("recipeNo", recipeNo);
+  params.put("memberNo", memberNo);
+  params.put("recipeRate", recipeRate);
+  
+  // 기존 평점 존재 여부 확인
+  int count = recipeDao.recipeGradeSelect(params);
+  
+  if(count == 0) {
+    return recipeDao.recipeGradeInsert(params); // 신규
+  } else {
+    return recipeDao.recipeGradeUpdate(params); // 수정
+  }
+}`,
+          language: 'java',
+        },
+        {
+          title: '페이징 처리 - ROWNUM 기반',
+          description: 'Oracle ROWNUM을 활용한 페이징 쿼리. 서브쿼리로 정렬 후 범위 지정.',
+          flow: ['1. 내부 쿼리에서 정렬', '2. ROWNUM 부여', '3. 외부에서 범위 필터링'],
+          code: `<select id="recipeList" resultType="recipe">
+  SELECT * FROM (
+    SELECT ROWNUM rnum, a.* FROM (
+      SELECT r.*, m.member_nickname
+      FROM recipe_tbl r
+      JOIN member_tbl m ON r.member_no = m.member_no
+      ORDER BY recipe_no DESC
+    ) a
+  ) WHERE rnum BETWEEN #{start} AND #{end}
+</select>`,
+          language: 'xml',
+        },
+      ],
     },
     {
       title: 'Talk & Deal',
@@ -333,6 +403,99 @@ export const profileData = {
       contribution: '30%',
       github: 'https://github.com/ljw155070-a11y/final_project',
       learned: '관리자 기능은 UX(검색/필터/페이지네이션)와 데이터 정합성이 핵심',
+      codeExamples: [
+        {
+          title: '회원 목록 조회 - 동적 정렬/검색/페이징',
+          description: 'React에서 상태 관리 후 API 호출. 14가지 정렬 옵션과 검색/페이징을 한 번에 처리.',
+          flow: ['1. React 상태(order, searchType, pageNo) 변경', '2. useEffect로 API 호출', '3. 백엔드에서 동적 SQL 실행', '4. 결과를 테이블에 렌더링'],
+          code: `// React - 회원 목록 요청
+useEffect(() => {
+  setMemberLoading(true);
+  axios.get(\`\${backServer}/admin/memberList\`, {
+    params: {
+      order: reqPageInfo.order,      // 정렬 (1~14)
+      pageNo: reqPageInfo.pageNo,    // 페이지
+      searchText: reqPageInfo.searchText,
+      searchType: reqPageInfo.searchType,
+      listCnt: reqPageInfo.listCnt
+    }
+  })
+  .then((res) => {
+    setMemberList(res.data.pageList);
+    setTotalListCount(res.data.totalListCount);
+    setMemberLoading(false);
+  });
+}, [reqPageInfo]);`,
+          language: 'javascript',
+        },
+        {
+          title: '정렬 토글 - 오름차순/내림차순 전환',
+          description: '컬럼 클릭 시 정렬 방향 토글. order 값으로 백엔드에 정렬 방식 전달.',
+          flow: ['1. 컬럼 헤더 클릭', '2. 현재 order 확인 후 토글', '3. reqPageInfo 상태 업데이트', '4. useEffect 트리거로 재조회'],
+          code: `const sortSelect = (column) => {
+  // 회원번호: 1(ASC), 2(DESC)
+  // 신고수: 3(ASC), 4(DESC) ...
+  if (column === "no") {
+    reqPageInfo.order === 1
+      ? setReqPageInfo({ ...reqPageInfo, order: 2 })
+      : setReqPageInfo({ ...reqPageInfo, order: 1 });
+  } else if (column === "claim") {
+    reqPageInfo.order === 3
+      ? setReqPageInfo({ ...reqPageInfo, order: 4 })
+      : setReqPageInfo({ ...reqPageInfo, order: 3 });
+  }
+  // ... 14가지 정렬 옵션
+};`,
+          language: 'javascript',
+        },
+        {
+          title: 'MyBatis 동적 SQL - 다중 테이블 JOIN + 정렬',
+          description: '회원별 신고수/좋아요수/게시글수를 서브쿼리로 집계. 동적 ORDER BY 처리.',
+          flow: ['1. 회원 기본 정보 조회', '2. 서브쿼리로 활동 통계 집계', '3. 동적 ORDER BY 적용', '4. ROWNUM 페이징'],
+          code: `<select id="memberList" resultType="adminMember">
+  SELECT * FROM (
+    SELECT ROWNUM rnum, a.* FROM (
+      SELECT m.member_no, m.member_id, m.member_email,
+        (SELECT COUNT(*) FROM fb_claim_tbl 
+         WHERE member_no = m.member_no) claim_count,
+        (SELECT COUNT(*) FROM fb_like_tbl 
+         WHERE member_no = m.member_no) like_count
+      FROM member_tbl m
+      <choose>
+        <when test="order == 1">ORDER BY member_no ASC</when>
+        <when test="order == 2">ORDER BY member_no DESC</when>
+        <when test="order == 3">ORDER BY claim_count ASC</when>
+        <when test="order == 4">ORDER BY claim_count DESC</when>
+      </choose>
+    ) a
+  ) WHERE rnum BETWEEN #{start} AND #{end}
+</select>`,
+          language: 'xml',
+        },
+        {
+          title: 'Chart.js 통계 대시보드',
+          description: '기간별 가입자/탈퇴자/게시글 통계를 차트로 시각화.',
+          flow: ['1. 기간 선택 (5년/1년/1개월)', '2. API로 통계 데이터 요청', '3. Chart.js 데이터 포맷 변환', '4. Bar/Line/Pie 차트 렌더링'],
+          code: `// 차트 데이터 구성
+const data = {
+  labels: labels,  // ['1월', '2월', ...]
+  datasets: [{
+    label: "가입자",
+    data: values,  // [120, 95, ...]
+    backgroundColor: "rgba(5, 20, 160, 0.5)",
+    borderWidth: 1,
+  }],
+};
+
+// 차트 렌더링
+<ChartTemplate
+  title="월간 가입자 수"
+  subTitle={\`기준 : \${selectCriteria}\`}
+  chartTag={<Bar data={data} />}
+/>`,
+          language: 'javascript',
+        },
+      ],
     },
     {
       title: 'Comeunity',
@@ -352,6 +515,66 @@ export const profileData = {
       contribution: '25%',
       github: 'https://github.com/ljw155070-a11y/community',
       learned: '반복 코딩 시간을 줄이고 핵심 비즈니스 로직과 UX에 집중하면 생산성이 획기적으로 향상됨',
+      codeExamples: [
+        {
+          title: 'SSR/CSR 하이브리드 라우팅 설계',
+          description: '비로그인 페이지는 SSR(Thymeleaf)로, 로그인 후 동적 페이지는 CSR(React)로 분리.',
+          flow: ['1. 메인/게시판 목록 → SSR (SEO 최적화)', '2. 글 작성/수정 → CSR (동적 UX)', '3. 회원가입 → CSR (실시간 유효성 검사)'],
+          code: `// Spring Boot - SSR/CSR 라우팅 분리
+@Controller
+public class PageController {
+  // SSR - Thymeleaf 렌더링
+  @GetMapping("/board/list")
+  public String boardList(Model model) {
+    model.addAttribute("boards", boardService.getList());
+    return "board/list";  // templates/board/list.html
+  }
+}
+
+@RestController
+@RequestMapping("/api")
+public class BoardApiController {
+  // CSR - React에서 호출하는 API
+  @PostMapping("/board")
+  public ResponseEntity<?> createBoard(@RequestBody BoardDto dto) {
+    return ResponseEntity.ok(boardService.create(dto));
+  }
+}`,
+          language: 'java',
+        },
+        {
+          title: 'React 회원가입 - 실시간 유효성 검사',
+          description: 'onChange마다 유효성 검사 후 시각적 피드백 제공.',
+          flow: ['1. 입력값 변경 감지', '2. 정규식 검증', '3. 중복 체크 API 호출', '4. 결과에 따른 UI 업데이트'],
+          code: `const [formData, setFormData] = useState({
+  memberId: '', memberPw: '', memberEmail: ''
+});
+const [errors, setErrors] = useState({});
+
+const validateField = (name, value) => {
+  switch(name) {
+    case 'memberId':
+      if(!/^[a-zA-Z0-9]{4,12}$/.test(value)) {
+        return '4~12자 영문/숫자만 가능';
+      }
+      break;
+    case 'memberPw':
+      if(!/^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$/.test(value)) {
+        return '8자 이상, 영문+숫자 포함';
+      }
+      break;
+  }
+  return '';
+};
+
+const handleChange = (e) => {
+  const { name, value } = e.target;
+  setFormData({ ...formData, [name]: value });
+  setErrors({ ...errors, [name]: validateField(name, value) });
+};`,
+          language: 'javascript',
+        },
+      ],
     },
     {
       title: 'Pyeonharu (편하루)',
@@ -371,6 +594,65 @@ export const profileData = {
       contribution: '진행중',
       github: 'https://github.com/ljw155070-a11y/pyeonharu',
       learned: 'Next.js를 통해 렌더링 전략 선택의 유연성과 개발 생산성을 동시에 확보',
+      codeExamples: [
+        {
+          title: 'Next.js App Router - SSR/CSR 통합',
+          description: '파일 기반 라우팅과 서버 컴포넌트로 렌더링 전략 자동 최적화.',
+          flow: ['1. page.tsx → 기본 서버 컴포넌트 (SSR)', '2. "use client" 선언 → 클라이언트 컴포넌트 (CSR)', '3. 필요에 따라 혼합 사용'],
+          code: `// app/page.tsx - 서버 컴포넌트 (SSR)
+export default async function HomePage() {
+  // 서버에서 데이터 페칭
+  const data = await fetch('https://api.example.com/data');
+  
+  return (
+    <main>
+      <h1>편하루</h1>
+      <ClientComponent initialData={data} />
+    </main>
+  );
+}
+
+// components/ClientComponent.tsx - 클라이언트 컴포넌트
+"use client"
+import { useState } from 'react';
+
+export default function ClientComponent({ initialData }) {
+  const [data, setData] = useState(initialData);
+  // 클라이언트 사이드 인터랙션 처리
+  return <div onClick={() => setData(...)}>...</div>;
+}`,
+          language: 'typescript',
+        },
+        {
+          title: 'TypeScript 타입 정의',
+          description: '인터페이스로 데이터 구조 명확화. 컴파일 타임 오류 방지.',
+          flow: ['1. 인터페이스 정의', '2. 컴포넌트 Props 타입 지정', '3. API 응답 타입 지정'],
+          code: `// types/index.ts
+export interface User {
+  id: number;
+  name: string;
+  email: string;
+  createdAt: Date;
+}
+
+export interface ApiResponse<T> {
+  success: boolean;
+  data: T;
+  message?: string;
+}
+
+// 컴포넌트에서 사용
+interface Props {
+  user: User;
+  onUpdate: (user: User) => void;
+}
+
+export default function UserCard({ user, onUpdate }: Props) {
+  return <div>{user.name}</div>;
+}`,
+          language: 'typescript',
+        },
+      ],
     },
   ],
 }
