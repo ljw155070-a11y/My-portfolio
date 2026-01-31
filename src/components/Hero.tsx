@@ -33,9 +33,9 @@ export default function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
         >
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-black leading-tight mb-4">
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-black leading-relaxed md:leading-relaxed mb-6">
             안녕하세요,
-            <span className="block gradient-text">{profileData.title} {profileData.name}입니다.</span>
+            <span className="block gradient-text mt-2">{profileData.title} {profileData.name}입니다.</span>
           </h1>
           
           <p className="text-lg text-gray-400 mb-6 pl-4 border-l-4 border-accent">
