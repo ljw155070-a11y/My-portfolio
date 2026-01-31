@@ -1,8 +1,8 @@
-"use client";
+'use client'
 
-import { motion } from "framer-motion";
-import { profileData } from "@/data/profile";
-import { Github, Mail } from "lucide-react";
+import { motion } from 'framer-motion'
+import { profileData } from '@/data/profile'
+import { Github, Mail } from 'lucide-react'
 
 export default function Hero() {
   return (
@@ -13,16 +13,16 @@ export default function Hero() {
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_20%,rgba(212,175,55,0.1)_0%,transparent_40%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_40%_80%,rgba(233,69,96,0.08)_0%,transparent_40%)]" />
       </div>
-
+      
       {/* Grid Pattern */}
-      <div
+      <div 
         className="absolute inset-0 opacity-30 animate-grid-move"
         style={{
           backgroundImage: `
             linear-gradient(rgba(233, 69, 96, 0.03) 1px, transparent 1px),
             linear-gradient(90deg, rgba(233, 69, 96, 0.03) 1px, transparent 1px)
           `,
-          backgroundSize: "60px 60px",
+          backgroundSize: '60px 60px',
         }}
       />
 
@@ -35,15 +35,13 @@ export default function Hero() {
         >
           <h1 className="text-3xl md:text-4xl lg:text-5xl font-black leading-tight mb-4">
             안녕하세요,
-            <span className="block gradient-text">
-              {profileData.title} {profileData.name}입니다.
-            </span>
+            <span className="block gradient-text">{profileData.title} {profileData.name}입니다.</span>
           </h1>
-
+          
           <p className="text-lg text-gray-400 mb-6 pl-4 border-l-4 border-accent">
             {profileData.tagline}
           </p>
-
+          
           {/* Stats */}
           <div className="flex gap-6 mb-6">
             {profileData.stats.map((stat, index) => (
@@ -54,16 +52,12 @@ export default function Hero() {
                 transition={{ duration: 0.5, delay: 0.3 + index * 0.1 }}
                 className="text-center"
               >
-                <div className="font-display text-4xl text-accent">
-                  {stat.number}
-                </div>
-                <div className="text-xs text-gray-500 uppercase tracking-widest">
-                  {stat.label}
-                </div>
+                <div className="font-display text-4xl text-accent">{stat.number}</div>
+                <div className="text-xs text-gray-500 uppercase tracking-widest">{stat.label}</div>
               </motion.div>
             ))}
           </div>
-
+          
           {/* CTA Buttons */}
           <div className="flex flex-wrap gap-4">
             <a
@@ -95,10 +89,10 @@ export default function Hero() {
           <div className="relative">
             {/* Glow Effect */}
             <div className="absolute -inset-4 bg-gradient-to-br from-accent to-accent-gold rounded-full opacity-20 blur-xl" />
-
+            
             {/* Border Ring */}
             <div className="absolute -inset-1.5 bg-gradient-to-br from-accent to-accent-gold rounded-full" />
-
+            
             {/* White Background + Image Container */}
             <div className="relative w-[200px] h-[200px] rounded-full overflow-hidden bg-white">
               <img
@@ -111,5 +105,5 @@ export default function Hero() {
         </motion.div>
       </div>
     </section>
-  );
+  )
 }
