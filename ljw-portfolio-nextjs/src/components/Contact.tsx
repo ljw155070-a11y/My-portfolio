@@ -1,36 +1,36 @@
-'use client'
+"use client";
 
-import { motion, useInView } from 'framer-motion'
-import { useRef } from 'react'
-import { Mail, Github, MapPin, Send } from 'lucide-react'
+import { motion, useInView } from "framer-motion";
+import { useRef } from "react";
+import { Mail, Github, MapPin, Send } from "lucide-react";
 
 const contactInfo = [
   {
     icon: Mail,
-    label: 'Email',
-    value: 'wjsgusdn1tp@gmail.com',
-    href: 'mailto:wjsgusdn1tp@gmail.com',
-    color: 'from-indigo-500 to-purple-500',
+    label: "Email",
+    value: "ljw940727@naver.com",
+    href: "mailto:ljw940727@naver.com",
+    color: "from-indigo-500 to-purple-500",
   },
   {
     icon: Mail,
-    label: 'Email (Naver)',
-    value: 'wjsgusdn1tp@naver.com',
-    href: 'mailto:wjsgusdn1tp@naver.com',
-    color: 'from-green-500 to-emerald-500',
+    label: "Email (Naver)",
+    value: "ljw940727@naver.com",
+    href: "mailto:ljw940727@naver.com",
+    color: "from-green-500 to-emerald-500",
   },
   {
     icon: Github,
-    label: 'GitHub',
-    value: 'github.com/ljw155070',
-    href: 'https://github.com/ljw155070',
-    color: 'from-slate-500 to-slate-700',
+    label: "GitHub",
+    value: "github.com/ljw155070",
+    href: "https://github.com/ljw155070",
+    color: "from-slate-500 to-slate-700",
   },
-]
+];
 
 export default function Contact() {
-  const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: '-100px' })
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
     <section id="contact" className="py-32 relative overflow-hidden">
@@ -67,15 +67,21 @@ export default function Contact() {
               <motion.a
                 key={item.label}
                 href={item.href}
-                target={item.href.startsWith('http') ? '_blank' : undefined}
-                rel={item.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                target={item.href.startsWith("http") ? "_blank" : undefined}
+                rel={
+                  item.href.startsWith("http")
+                    ? "noopener noreferrer"
+                    : undefined
+                }
                 initial={{ opacity: 0, y: 20 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.5, delay: 0.3 + index * 0.1 }}
                 whileHover={{ y: -5, scale: 1.02 }}
                 className="card text-center group cursor-pointer"
               >
-                <div className={`inline-flex p-4 rounded-2xl bg-gradient-to-br ${item.color} mb-4 group-hover:scale-110 transition-transform`}>
+                <div
+                  className={`inline-flex p-4 rounded-2xl bg-gradient-to-br ${item.color} mb-4 group-hover:scale-110 transition-transform`}
+                >
                   <item.icon size={28} className="text-white" />
                 </div>
                 <h3 className="font-semibold text-white mb-2">{item.label}</h3>
@@ -99,11 +105,11 @@ export default function Contact() {
                 함께 성장하고 싶습니다
               </h3>
               <p className="text-slate-400 mb-8 leading-relaxed">
-                신입이지만 배움에 대한 열정과 문제를 끝까지 해결하려는 끈기가 있습니다.
-                함께 일할 수 있는 기회를 주신다면 최선을 다하겠습니다.
+                신입이지만 배움에 대한 열정과 문제를 끝까지 해결하려는 끈기가
+                있습니다. 함께 일할 수 있는 기회를 주신다면 최선을 다하겠습니다.
               </p>
               <motion.a
-                href="mailto:wjsgusdn1tp@gmail.com"
+                href="mailto:ljw940727@naver.com"
                 className="btn-primary inline-flex items-center gap-2"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
@@ -116,5 +122,5 @@ export default function Contact() {
         </div>
       </div>
     </section>
-  )
+  );
 }
