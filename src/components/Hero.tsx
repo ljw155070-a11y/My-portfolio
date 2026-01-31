@@ -96,7 +96,7 @@ export default function Hero() {
             {/* White Background + Image Container */}
             <div className="relative w-[200px] h-[200px] rounded-full overflow-hidden bg-white">
               <img
-                src="/profile.jpg"
+                src={`${process.env.NODE_ENV === 'production' ? '/My-portfolio' : ''}/profile.jpg`}
                 alt="이진원 프로필 사진"
                 className="w-full h-full object-cover object-[center_15%]"
               />
