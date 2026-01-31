@@ -11,7 +11,7 @@ export const profileData = {
   stats: [
     { number: '8+', label: 'Years QA' },
     { number: '4', label: 'Projects' },
-    { number: 'A~B+', label: 'Avg. Rating' },
+    { number: 'A~B+', label: 'HR Rating' },
   ],
   
   identity: '8년간 QA로 다져진 문제 해결 능력과 사용자 중심 사고를 갖춘 풀스택 개발자',

@@ -50,10 +50,16 @@ export default function Hero() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.3 + index * 0.1 }}
-                className="text-center"
+                className="text-center group relative"
+                title={stat.label === 'HR Rating' ? '8년 근무 인사평가 평균 등급' : undefined}
               >
                 <div className="font-display text-4xl text-accent">{stat.number}</div>
                 <div className="text-xs text-gray-500 uppercase tracking-widest">{stat.label}</div>
+                {stat.label === 'HR Rating' && (
+                  <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 whitespace-nowrap text-[10px] text-gray-500 opacity-0 group-hover:opacity-100 transition-opacity">
+                    8년 인사평가 평균
+                  </div>
+                )}
               </motion.div>
             ))}
           </div>
