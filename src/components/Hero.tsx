@@ -3,7 +3,6 @@
 import { motion } from 'framer-motion'
 import { profileData } from '@/data/profile'
 import { Github, Mail } from 'lucide-react'
-import Image from 'next/image'
 
 export default function Hero() {
   return (
@@ -96,12 +95,10 @@ export default function Hero() {
             
             {/* White Background + Image Container */}
             <div className="relative w-[200px] h-[200px] rounded-full overflow-hidden bg-white">
-              <Image
-                src="/profile.jpg"
+              <img
+                src="/My-portfolio/profile.jpg"
                 alt="이진원 프로필 사진"
-                fill
-                className="object-cover object-[center_15%]"
-                priority
+                className="w-full h-full object-cover object-[center_15%]"
               />
             </div>
           </div>
