@@ -10,8 +10,8 @@ export const profileData = {
   
   stats: [
     { number: '8+', label: 'Years QA' },
-    { number: '2', label: 'Projects' },
-    { number: '98%', label: 'Attendance' },
+    { number: '4', label: 'Projects' },
+    { number: 'A~B+', label: 'Avg. Rating' },
   ],
   
   identity: '8년간 QA로 다져진 문제 해결 능력과 사용자 중심 사고를 갖춘 풀스택 개발자',
@@ -336,7 +336,7 @@ export const profileData = {
     },
     {
       title: 'Comeunity',
-      period: '2025.01 (4일)',
+      period: '2026.01 (2주)',
       badge: 'Hybrid',
       phase: '3단계: 하이브리드 아키텍처',
       description: 'SSR과 CSR의 최적 조합으로 구현한 하이브리드 커뮤니티 플랫폼. 바이브코딩 기반 협업으로 4주 → 4일 개발 기간 단축 (생산성 700% 향상).',
@@ -350,12 +350,12 @@ export const profileData = {
       ],
       myRole: '관리자 기능, JWT 인증 구현, AWS 배포',
       contribution: '25%',
-      github: 'https://github.com/ljw155070-a11y/comeunity',
+      github: 'https://github.com/ljw155070-a11y/community',
       learned: '반복 코딩 시간을 줄이고 핵심 비즈니스 로직과 UX에 집중하면 생산성이 획기적으로 향상됨',
     },
     {
       title: 'Pyeonharu (편하루)',
-      period: '2025.01 - 진행중',
+      period: '2026.01 - 진행중',
       badge: 'Next.js',
       phase: '4단계: Next.js 풀스택',
       description: '의식주 기반 일상 편의 서비스. Next.js로 CSR/SSR을 통합하여 단일 프레임워크에서 최적의 렌더링 전략을 적용합니다.',
