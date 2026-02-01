@@ -34,37 +34,37 @@ export const profileData = {
     {
       period: '2025.05 - 2025.11',
       company: 'KH 정보교육원',
-      role: 'React & Spring 활용 Java 개발자 양성과정',
+      myRole: 'React & Spring 활용 Java 개발자 양성과정',
       description: 'Java, Spring Boot, React, Oracle 등 풀스택 개발 기술 습득. 세미/파이널 프로젝트 조장으로 팀 리딩 경험.',
     },
     {
       period: '2022.02 - 2025.04',
       company: '(주) 하이브로',
-      role: 'QA 팀원 / TF 팀장',
+      myRole: 'QA 팀원 / TF 팀장',
       description: '모바일 게임 QA 리딩 및 유관부서 실무 협업. TF팀장으로 신규 출시 게임 QA 일정 조율, 업데이트 기획 점검 및 문제점 보고. 양대 마켓(구글, 애플) 빌드 관리. 앱스토어 정책 TC 제작, 글로벌 법률(유럽 GDPR, 일본 자금결제법) 테스트.',
     },
     {
       period: '2021 - 2022',
       company: '아이지에스 (주)',
-      role: '테스트 자동화팀 리더',
+      myRole: '테스트 자동화팀 리더',
       description: 'JavaScript(Blockly) 기반 모바일 게임 자동화 테스트. QA 전체 수동 업무 대비 자동화 전환률 평균 40% 달성. 스크립트 작성 매뉴얼 제작 및 중국 법인 화상 교육.',
     },
     {
       period: '2020',
       company: '아이지에스 (주)',
-      role: '서울 본사 QA 팀원',
+      myRole: '서울 본사 QA 팀원',
       description: '고객사 넷마블과 협업하여 모바일 게임 테스트 엔지니어 및 리딩.',
     },
     {
       period: '2017 - 2019',
       company: '아이지에스 (주)',
-      role: '대구 QA/QM 팀원 → 테스트 리더',
+      myRole: '대구 QA/QM 팀원 → 테스트 리더',
       description: '입사 후 QA 테스트 리더로 성장. 공통 테스트 문서 생성 및 관리, 테스트 엔지니어 교육 문서 작성.',
     },
     {
       period: '2018 / 2026',
       company: '학력',
-      role: '컴퓨터공학 전공',
+      myRole: '컴퓨터공학 전공',
       description: '수성대학교 컴퓨터정보과 졸업 (2018) / 학점은행제 컴퓨터공학과 졸업 예정 (2026)',
     },
   ],
@@ -316,9 +316,9 @@ export const profileData = {
         '검색/정렬/페이지네이션 구현',
         '댓글 CRUD 및 신고 기능',
       ],
-      role: '게시판 영역 설계/구현, 검색/정렬 기능',
+      myRole: '게시판 영역 설계/구현, 검색/정렬 기능',
       contribution: '30%',
-      lesson: 'SSR에서 사용자 경험을 유지하려면 URL 설계와 렌더링 단위를 신중히 나눠야 함',
+      learned: 'SSR에서 사용자 경험을 유지하려면 URL 설계와 렌더링 단위를 신중히 나눠야 함',
       github: 'https://github.com/ljw155070-a11y/teamproject',
       codeExamples: [
         {
@@ -406,9 +406,9 @@ public int insertRecipe(Recipe r,
         '회원 관리 (검색/정렬/페이징/정지 처리)',
         'SSR 기반 공지/소개 페이지 (Thymeleaf)',
       ],
-      role: '관리자 페이지 전체 (통계/CRUD/회원관리), ERD 설계',
+      myRole: '관리자 페이지 전체 (통계/CRUD/회원관리), ERD 설계',
       contribution: '30%',
-      lesson: '관리자 기능은 UX(검색/필터/페이지네이션)와 데이터 정합성이 핵심',
+      learned: '관리자 기능은 UX(검색/필터/페이지네이션)와 데이터 정합성이 핵심',
       github: 'https://github.com/ljw155070-a11y/final_project',
       codeExamples: [
         {
@@ -511,9 +511,9 @@ const data = {
         'SSR: 게시판 목록 (비로그인)',
         'CSR: 회원가입 기능 구현',
       ],
-      role: '게시판 SSR/CSR, 회원가입, AWS 배포',
+      myRole: '게시판 SSR/CSR, 회원가입, AWS 배포',
       contribution: '25%',
-      lesson: '반복 코딩 시간을 줄이고 핵심 비즈니스 로직과 UX에 집중하면 생산성이 획기적으로 향상됨',
+      learned: '반복 코딩 시간을 줄이고 핵심 비즈니스 로직과 UX에 집중하면 생산성이 획기적으로 향상됨',
       github: 'https://github.com/ljw155070-a11y/community',
       codeExamples: [
         {
@@ -590,9 +590,9 @@ const handleChange = (e) => {
         'CSR + SSR 통합 렌더링 전략',
         'AWS Linux 서버 배포 예정',
       ],
-      role: '프로젝트 설계, 풀스택 개발',
+      myRole: '프로젝트 설계, 풀스택 개발',
       contribution: '진행중',
-      lesson: 'Next.js를 통해 렌더링 전략 선택의 유연성과 개발 생산성을 동시에 확보',
+      learned: 'Next.js를 통해 렌더링 전략 선택의 유연성과 개발 생산성을 동시에 확보',
       github: 'https://github.com/ljw155070-a11y/pyeonharu',
       codeExamples: [
         {
